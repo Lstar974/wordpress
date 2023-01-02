@@ -1,5 +1,26 @@
-- name: install wordpress
+---
+#Simple Ansible Playbook to build and run a Docker containers
+ 
+- name: Playbook to build and run Docker
   hosts: all
-  become: yes
-  roles:
-    - wordpress
+  become: true
+  gather_facts: false
+ 
+  tasks:
+    - name: Build a Docker image using webapp.war file
+      docker_image:
+        name: wordpress
+        build:
+          path: /etc/docker/wordpress/
+          pull: false
+        source: build
+ 
+    - name: Run Docker container using simple-docker-image
+      docker_container:
+        name: wordpress
+        image: wordpresslatest
+        state: started
+        recreate: yes
+        detach: true
+        ports:
+          - "8888:8080"
