@@ -1,11 +1,11 @@
 node{
-  def app
 
     stage('Clone') {
-        checkout scm
+        git 'https://github.com/Lstar974/wordpress.git'
+    }
+    stage('Ansible') {
+   
+    sh 'ansible-playbook -i playbook.yml'
     }
 
-    stage('Build image') {
-        app = docker.build("lucas/nginx")
-    }
 }
