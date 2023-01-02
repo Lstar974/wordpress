@@ -5,7 +5,7 @@ node{
     }
     stage('Ansible') {
    
-    sh 'ansible-playbook -i playbook.yml'
+    sh 'ansible-playbook -i hosts.yml playbook.yml'
     }
 
 }
