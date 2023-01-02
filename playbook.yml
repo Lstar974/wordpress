@@ -1,0 +1,13 @@
+# playbook.yml
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: deploy wordpress docker container
+      docker_container:
+        image: wordpress:latest
+        name: wordpress
+        state: started
+        auto_remove: true
+        ports:
+          - "8080:80"
