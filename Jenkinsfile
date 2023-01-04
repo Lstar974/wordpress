@@ -4,7 +4,7 @@ node {
     }
     
     stage('Build image') {
-       dockerImage = docker.build("lucas/wordpress:latest")
+       dockerImage = docker.build("lstar974/wordpress")
     }
     
  stage('Push image') {
