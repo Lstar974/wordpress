@@ -8,7 +8,7 @@ node {
     }
     
  stage('Push image') {
-        withDockerRegistry(credentialsId: '7d344612-5b60-433e-8760-70fb00d4347e') {
+        withDockerRegistry(credentialsId: 'de97d028-f5ff-4ed3-af2c-2e7efff3453c') {
         dockerImage.push()
         }
     }    
