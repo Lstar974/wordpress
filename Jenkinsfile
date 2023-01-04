@@ -7,9 +7,12 @@ node {
        dockerImage = docker.build("lstar974/wordpress")
     }
     
- stage('Push image') {
+    stage('Push image') {
         withDockerRegistry(credentialsId: 'de97d028-f5ff-4ed3-af2c-2e7efff3453c') {
         dockerImage.push()
+        }
+      stage('Ansible') {
+      sh 'ansible-playbook -i hosts.yml playbook.yml'
         }
     }    
 }
