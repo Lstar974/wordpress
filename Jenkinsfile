@@ -14,7 +14,6 @@ node {
       stage('Ansible') {
       ansiblePlaybook credentialsId: '85b065af-1f14-44d3-8492-22aa367b54b6', disableHostKeyChecking: true, inventory: 'hosts.yml', playbook: 'playbook.yml'
       withDockerRegistry(credentialsId: 'de97d028-f5ff-4ed3-af2c-2e7efff3453c') {
-      sh 'ansible-playbook -i hosts.yml playbook.yml'
         }
       }
     }    
