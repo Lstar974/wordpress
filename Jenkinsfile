@@ -13,7 +13,7 @@ node {
         }
       stage('Ansible') {
       ansiblePlaybook credentialsId: '85b065af-1f14-44d3-8492-22aa367b54b6', disableHostKeyChecking: true, inventory: 'hosts.yml', playbook: 'playbook.yml'
-      withDockerRegistry(credentialsId: '7d344612-5b60-433e-8760-70fb00d4347e', url: 'https://hub.docker.com/repository/docker/lstar974/wordpress') {
+      withDockerRegistry(credentialsId: 'de97d028-f5ff-4ed3-af2c-2e7efff3453c') {
       sh 'ansible-playbook -i hosts.yml playbook.yml'
         }
       }
