@@ -16,5 +16,12 @@ node {
       withDockerRegistry(credentialsId: 'de97d028-f5ff-4ed3-af2c-2e7efff3453c') {
         }
       }
+        stage('Test image') {
+        docker.image('lstar974/wordpress').withRun('-p 80:80') { c ->
+        sh 'docker ps'
+        sh 'curl localhost'
+	     }
+    }
+
     }    
 }
