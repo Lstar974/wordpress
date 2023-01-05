@@ -12,7 +12,7 @@ node {
         dockerImage.push()
         }
       stage('Ansible') {
-      ansiblePlaybook credentialsId: 'ansible', disableHostKeyChecking: true, playbook: ''
+      ansiblePlaybook credentialsId: 'ansible', disableHostKeyChecking: true, inventory: 'wordpress/hosts.yml', playbook: 'wordpress/playbook.yml'
       sh 'ansible-playbook -i hosts.yml playbook.yml'
         }
     }    
