@@ -12,6 +12,7 @@ node {
         dockerImage.push()
         }
       stage('Ansible') {
+      ansiblePlaybook credentialsId: 'ansible', disableHostKeyChecking: true, playbook: ''
       sh 'ansible-playbook -i hosts.yml playbook.yml'
         }
     }    
