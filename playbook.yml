@@ -11,14 +11,14 @@
       docker_image:
         name: wordpress
         build:
-          path: /etc/docker/wordpress/
+          path: https://hub.docker.com/repository/docker/lstar974/wordpress
           pull: false
         source: build
  
     - name: Run Docker container using simple-docker-image
       docker_container:
         name: wordpress
-        image: wordpresslatest
+        image: wordpress
         state: started
         recreate: yes
         detach: true
