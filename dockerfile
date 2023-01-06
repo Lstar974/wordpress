@@ -23,4 +23,3 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
     # Remove old php.ini files (wihtout creating new image)
     rm /usr/local/etc/php/php.ini-development && \
     rm /usr/local/etc/php/php.ini-production
-RUN sed -i 's/lstar974/wordpress/g' /var/www/html/index.html
