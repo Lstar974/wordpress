@@ -14,7 +14,7 @@ RUN apt update && \
 
 # Replace php.ini
 COPY php.ini /usr/local/etc/php
-COPY wordpress:latest /var/www/html
+
 # Install WP-CLI
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     php wp-cli.phar --info&& \
@@ -23,3 +23,4 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
     # Remove old php.ini files (wihtout creating new image)
     rm /usr/local/etc/php/php.ini-development && \
     rm /usr/local/etc/php/php.ini-production
+RUN lstar974/wordpress /var/www/html/index.html
