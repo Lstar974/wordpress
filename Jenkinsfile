@@ -8,12 +8,12 @@ node {
     }
     
     stage('Push image') {
-        withDockerRegistry(credentialsId: 'de97d028-f5ff-4ed3-af2c-2e7efff3453c') {
+        withDockerRegistry(credentialsId: 'dockerhub') {
         dockerImage.push()
         }
       stage('Ansible') {
-      ansiblePlaybook credentialsId: '85b065af-1f14-44d3-8492-22aa367b54b6', disableHostKeyChecking: true, inventory: 'hosts.yml', playbook: 'playbook.yml'
-      withDockerRegistry(credentialsId: 'de97d028-f5ff-4ed3-af2c-2e7efff3453c') {
+      ansiblePlaybook credentialsId: 'ssh', disableHostKeyChecking: true, inventory: 'hosts.yml', playbook: 'playbook.yml'
+      withDockerRegistry(credentialsId: 'dockerhub') {
         }
       }
         stage('Test image') {
