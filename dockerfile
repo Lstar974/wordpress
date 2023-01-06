@@ -14,7 +14,7 @@ RUN apt update && \
 
 # Replace php.ini
 COPY php.ini /usr/local/etc/php
-
+COPY src/ /var/www/html
 # Install WP-CLI
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     php wp-cli.phar --info&& \
