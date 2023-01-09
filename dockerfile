@@ -23,5 +23,3 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
     # Remove old php.ini files (wihtout creating new image)
     rm /usr/local/etc/php/php.ini-development && \
     rm /usr/local/etc/php/php.ini-production
-    
-dockerfile up
