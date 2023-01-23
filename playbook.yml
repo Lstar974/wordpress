@@ -19,8 +19,8 @@
 
     - name: Clone the source code repository
       git:
-        repo: https://github.com/myuser/myrepo.git
-        dest: /opt/myrepo
+        repo: https://github.com/Lstar974/wordpress.git
+        dest: /opt/wordpress
 
     - name: Install Python dependencies
       pip:
