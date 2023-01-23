@@ -13,7 +13,7 @@ RUN apt-get update && \
         libonig-dev \
         libpq-dev \
         libxml2-dev \
-        PyMySQL \
+        python-mysqldb \
         unzip
 
 # Configure PHP extensions
