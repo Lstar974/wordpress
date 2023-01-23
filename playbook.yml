@@ -24,13 +24,13 @@
       - php-mysql
   - name: Create WordPress database
     mysql_db:
-      name: "{{ wordpress_db_name }}"
+      name: "wordpress"
       state: present
   - name: Create WordPress database user
     mysql_user:
-      name: "{{ wordpress_db_user }}"
-      password: "{{ wordpress_db_password }}"
-      priv: "{{ wordpress_db_name }}.*:ALL"
+      name: "lucas"
+      password: "root"
+      priv: "wordpress.*:ALL"
       state: present
   - name: Download WordPress
     get_url:
