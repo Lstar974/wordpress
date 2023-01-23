@@ -33,12 +33,6 @@
       state: present
       login_user: root
       login_password: root
-  
-  - name: Update .my.cnf file
-  lineinfile:
-    path: /path/to/.my.cnf
-    regexp: '^user='
-    line: 'user=localhost'
 
   - name: Create the WordPress database user
     mysql_user:
@@ -46,7 +40,6 @@
       password: "root"
       priv: "{{ wp_db_name }}.*:ALL"
       state: present
-      host: localhost
       login_user: root
       login_password: root
 
