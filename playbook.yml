@@ -40,7 +40,7 @@
       password: "root"
       priv: "{{ wp_db_name }}.*:ALL"
       state: present
-      host: localhost
+      host: 192.168.6.10
       login_user: root
       login_password: StrongPassword
 
