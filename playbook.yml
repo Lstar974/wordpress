@@ -37,15 +37,6 @@
     login_password: "root"
   with_items: "192.168.6.10"
 
-  - name: Create the WordPress database user
-    mysql_user:
-      name: "lucas"
-      password: "root"
-      priv: "wordpress.*:ALL"
-      state: present
-      login_user: root
-      login_password: root
-
   - name: Download WordPress
     get_url:
       url: https://wordpress.org/wordpress-{{ wp_version }}.tar.gz
