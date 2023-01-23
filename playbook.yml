@@ -41,8 +41,8 @@
       priv: "{{ wp_db_name }}.*:ALL"
       state: present
       host: 192.168.6.10
-      login_user: root
-      login_password: StrongPassword
+      login_user: lucas
+      login_password: root
 
   - name: Download WordPress
     get_url:
