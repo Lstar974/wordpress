@@ -32,7 +32,7 @@
     name: wordpress
     password: root
     priv: "wordpress.*:ALL"
-    host: "192.168.6.10"
+    host: 192.168.6.10
     login_user: root
     login_password: root
 
