@@ -1,64 +1,77 @@
 ---
-- name: Build WordPress environment
+- name: Install WordPress
   hosts: all
-  become: yes
+  become: true
   vars:
-    wordpress_version: 5.6
-    wordpress_db_name: wordpress
-    wordpress_db_user: lucas
-    wordpress_db_password: 1234
-    wordpress_site_url: test.com
-    wordpress_admin_user: admin
-    wordpress_admin_password: 1234
-    wordpress_admin_email: admin@example.com
+    wp_version: 5.7
+    wp_db_name: wordpress
+    wp_db_user: wordpress
+    wp_db_password: root
+    wp_db_host: localhost
+    wp_site_title: My WordPress Site
+    wp_admin_user: admin
+    wp_admin_password: root
+    wp_admin_email: admin@example.com
   tasks:
-  - name: Install LAMP stack
-    package:
-      name: "{{ item }}"
-    state: present
-    with_items:
-      - apache2
-      - php
-      - mysql-server
-      - libapache2-mod-php
-      - php-mysql
-  - name: Create WordPress database
+  - name: Install Apache and PHP
+    apt:
+      name:
+        - apache2
+        - php
+        - php-mysql
+        - libapache2-mod-php
+      state: latest
+
+  - name: Enable Apache mod_rewrite
+    apache2_module:
+      name: rewrite
+      state: present
+
+  - name: Create the WordPress database
     mysql_db:
       name: "wordpress"
       state: present
-  - name: Create WordPress database user
+      login_user: root
+      login_password: root
+  
+  - name: Create the WordPress database user
     mysql_user:
       name: "lucas"
       password: "root"
-      priv: "wordpress.*:ALL"
+      priv: "{{ wp_db_name }}.*:ALL"
       state: present
+      host: localhost
+      login_user: root
+      login_password: StrongPassword
+
   - name: Download WordPress
     get_url:
-      url: https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz
-      dest: /tmp
+      url: https://wordpress.org/wordpress-{{ wp_version }}.tar.gz
+      dest: /tmp/wordpress.tar.gz
+      
   - name: Extract WordPress
     unarchive:
-      src: /tmp/wordpress-{{ wordpress_version }}.tar.gz
+      src: /tmp/wordpress.tar.gz
       dest: /var/www/html/
-      remote_src: yes
-  - name: Create wp-config.php file
-  file:
-    path: /path/to/wp-config.php
-    state: touch
-    owner: www-data
-    group: www-data
-    mode: 0644
-    vars:
-      db_name: "wordpress"
-      db_user: "lucas"
-      db_password: "1234"
-  - name: Set ownership and permissions
-    file:
-      path: /var/www/html/wordpress
+      remote_src: true
+
+  - name: Create the wp-config.php file
+    template:
+      src: wp-config.php.j2
+      dest: /var/www/html/wordpress/wp-config.php
       owner: www-data
       group: www-data
-      mode: "u=rwX,g=rwX,o=rX"
+      mode: 0644
+     
+  - name: Set the correct permissions for the WordPress files
+    file:
+      path: /var/www/html/wordpress/
+      owner: www-data
+      group: www-data
+      mode: 0755
+      recurse: true
+      
   - name: Install WordPress
-    command: 
-      wp core install --url="{{ wordpress_site_url }}" --title="My Site" --admin_user="{{ wordpress_admin_user }}" --admin_password="{{ wordpress_admin_password }}" --admin_email="{{ wordpress_admin_email }}" --path="/var/www/html/wordpress"
+    command: bash -c "cd /var/www/html/wordpress/ && wp core install --url=http://{{ ansible_fqdn }} --title='{{ wp_site_title }}' --admin_user='{{ wp_admin_user }}' --admin_password='{{ wp_admin_password }}' --admin_email='{{ wp_admin_email }}' --skip-email"
+
 
