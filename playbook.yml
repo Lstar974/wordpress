@@ -34,13 +34,19 @@
       login_user: root
       login_password: root
   
+  - name: Update .my.cnf file
+  lineinfile:
+    path: /path/to/.my.cnf
+    regexp: '^user='
+    line: 'user=localhost'
+
   - name: Create the WordPress database user
     mysql_user:
       name: "lucas"
       password: "root"
       priv: "{{ wp_db_name }}.*:ALL"
       state: present
-      host: 192.168.6.10
+      host: localhost
       login_user: lucas
       login_password: root
 
