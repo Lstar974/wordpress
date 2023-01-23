@@ -16,11 +16,7 @@ node {
       withDockerRegistry(credentialsId: 'dockerhub') {
         }
       }
-        stage('Test image') {
-        docker.image('lstar974/wordpress').withRun('-p 80:80') { c ->
-        sh 'docker ps'
-        sh 'curl Devops'
-	     }
+     
     }
 
     }    
