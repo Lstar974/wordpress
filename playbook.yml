@@ -49,9 +49,9 @@
     group: www-data
     mode: 0644
     vars:
-      db_name: "{{ wordpress_db_name }}"
-      db_user: "{{ wordpress_db_user }}"
-      db_password: "{{ wordpress_db_password }}"
+      db_name: "wordpress"
+      db_user: "lucas"
+      db_password: "root"
   - name: Set ownership and permissions
     file:
       path: /var/www/html/wordpress
