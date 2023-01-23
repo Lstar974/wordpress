@@ -6,8 +6,8 @@
     wp_version: 5.7
     wp_db_name: wordpress
     wp_db_user: wordpress
-    wp_db_password: root
-    wp_db_host: 192.168.6.10
+    wp_db_password: StrongPassword
+    wp_db_host: localhost
     wp_site_title: My WordPress Site
     wp_admin_user: admin
     wp_admin_password: StrongPassword
@@ -29,18 +29,18 @@
 
   - name: Create the WordPress database
     mysql_db:
-      name: "wordpress"
+      name: "{{ wp_db_name }}"
       state: present
-      login_user: lucas
-      login_password: root
+      login_user: root
+      login_password: StrongPassword
   
   - name: Create the WordPress database user
     mysql_user:
-      name: "lucas"
-      password: "root"
-      priv: "wordpress.*:ALL"
+      name: "{{ wp_db_user }}"
+      password: "{{ wp_db_password }}"
+      priv: "{{ wp_db_name }}.*:ALL"
       state: present
-      host: 192.168.6.10
+      host: localhost
       login_user: root
       login_password: StrongPassword
 
