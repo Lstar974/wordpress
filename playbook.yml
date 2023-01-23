@@ -1,26 +1,61 @@
 ---
-#Simple Ansible Playbook to build and run a Docker containers
- 
-- name: Playbook to build and run Docker
+- name: Build WordPress environment
   hosts: all
-  become: true
-  gather_facts: false
- 
+  become: yes
+  vars:
+    wordpress_version: 5.6
+    wordpress_db_name: wordpress
+    wordpress_db_user: lucas
+    wordpress_db_password: 1234
+    wordpress_site_url: test.com
+    wordpress_admin_user: admin
+    wordpress_admin_password: 1234
+    wordpress_admin_email: admin@example.com
   tasks:
-    - name: Build a Docker image using webapp.war file
-      docker_image:
-        name: wordpress
-        build:
-          path: https://hub.docker.com/repository/docker/lstar974/wordpress
-          pull: false
-        source: build
- 
-    - name: Run Docker container using simple-docker-image
-      docker_container:
-        name: wordpress
-        image: wordpress
-        state: started
-        recreate: yes
-        detach: true
-        ports:
-          - "8888:8080"
+  - name: Install LAMP stack
+    package:
+      name: "{{ item }}"
+    state: present
+    with_items:
+      - apache2
+      - php
+      - mysql-server
+      - libapache2-mod-php
+      - php-mysql
+  - name: Create WordPress database
+    mysql_db:
+      name: "{{ wordpress_db_name }}"
+      state: present
+  - name: Create WordPress database user
+    mysql_user:
+      name: "{{ wordpress_db_user }}"
+      password: "{{ wordpress_db_password }}"
+      priv: "{{ wordpress_db_name }}.*:ALL"
+      state: present
+  - name: Download WordPress
+    get_url:
+      url: https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz
+      dest: /tmp
+  - name: Extract WordPress
+    unarchive:
+      src: /tmp/wordpress-{{ wordpress_version }}.tar.gz
+      dest: /var/www/html/
+      remote_src: yes
+  - name: Configure WordPress
+    template:
+      src: wp-config.php.j2
+      dest: /var/www/html/wordpress/wp-config.php
+    vars:
+      db_name: "{{ wordpress_db_name }}"
+      db_user: "{{ wordpress_db_user }}"
+      db_password: "{{ wordpress_db_password }}"
+  - name: Set ownership and permissions
+    file:
+      path: /var/www/html/wordpress
+      owner: www-data
+      group: www-data
+      mode: "u=rwX,g=rwX,o=rX"
+  - name: Install WordPress
+    command: 
+      wp core install --url="{{ wordpress_site_url }}" --title="My Site" --admin_user="{{ wordpress_admin_user }}" --admin_password="{{ wordpress_admin_password }}" --admin_email="{{ wordpress_admin_email }}" --path="/var/www/html/wordpress"
+
