@@ -4,11 +4,11 @@
   become: true
   tasks:
     - name: Update the package manager
-      apt:
+      apt-get:
         update_cache: true
 
     - name: Install Apache web server
-      apt:
+      apt-get:
         name: apache2
         state: present
 
