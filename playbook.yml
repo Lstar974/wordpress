@@ -1,18 +1,14 @@
-- name: Deploy WordPress
+- name: Create WordPress environment
   hosts: all
-  vars:
-    wordpress_image: my-wordpress-image
   tasks:
-  - name: Pull the WordPress image
-    docker_image:
-      name: "{{ wordpress_image }}"
-      state: present
-  - name: Start the WordPress container
-    docker_container:
-      name: my-wordpress-container
-      image: "{{ wordpress_image }}"
-      state: started
-      ports:
-        - "80:80"
-      volumes:
-        - "/var/www/html/wp-content:/var/www/html/wp-content"
+    - name: Build the Docker image
+      docker_image:
+        name: my-wordpress
+        build:
+          context: .
+    - name: Run the Docker container
+      docker_container:
+        name: my-wordpress
+        image: my-wordpress
+        ports:
+          - "80:80"
