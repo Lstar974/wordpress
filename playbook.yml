@@ -6,6 +6,7 @@
         name: my-wordpress
         build:
           context: .
+          source: .
     - name: Run the Docker container
       docker_container:
         name: my-wordpress
