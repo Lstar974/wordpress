@@ -36,7 +36,7 @@ COPY . /var/www/html/
 WORKDIR /var/www/html/
 
 # Copy the config file
-COPY /path/to/wp-config.php .
+COPY /path/to/wp-config.php
 
 # Change the ownership of the files
 RUN chown -R www-data:www-data /var/www/html/
