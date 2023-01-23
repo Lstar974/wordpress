@@ -37,11 +37,11 @@
         state: present
         
     - name: Create a virtual environment
-      command: virtualenv /opt/myenv
+      command: virtualenv /opt/wordpress
       
     - name: activate the virtual env
-      command: source /opt/myenv/bin/activate
+      command: source /opt/mwordpress/bin/activate
       
     - name:  Run the application
-      command: python3 /opt/myrepo/app.py
+      command: python3 /opt/wordpress/app.py
 
