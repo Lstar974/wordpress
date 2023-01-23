@@ -1,25 +1,50 @@
-# WordPress Dockerfile: Create container from official WordPress image, basic customizations.
-# docker build -t wordpress_local:wp_custom_1.0 .
+FROM php:7.4-apache
 
-FROM wordpress:latest
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y \
+        libzip-dev \
+        libicu-dev \
+        libjpeg-dev \
+        libpng-dev \
+        libfreetype6-dev \
+        libssl-dev \
+        libmcrypt-dev \
+        libonig-dev \
+        libpq-dev \
+        libxml2-dev \
+        mysql-client \
+        unzip
 
-# APT Update/Upgrade, then install packages we need
-RUN apt update && \
-    apt upgrade -y && \
-    apt autoremove && \
-    apt install -y \
-    vim \
-    wget \
-    mariadb-client
+# Configure PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install \
+        gd \
+        intl \
+        mbstring \
+        mysqli \
+        opcache \
+        pdo_mysql \
+        zip
 
-# Replace php.ini
-COPY php.ini /usr/local/etc/php
+# Enable mod_rewrite
+RUN a2enmod rewrite
 
-# Install WP-CLI
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
-    php wp-cli.phar --info&& \
-    chmod +x wp-cli.phar && \
-    mv wp-cli.phar /usr/local/bin/wp && \
-    # Remove old php.ini files (wihtout creating new image)
-    rm /usr/local/etc/php/php.ini-development && \
-    rm /usr/local/etc/php/php.ini-production
+# Copy the code to the container
+COPY . /var/www/html/
+
+# Set the working directory
+WORKDIR /var/www/html/
+
+# Copy the config file
+COPY wp-config.php .
+
+# Change the ownership of the files
+RUN chown -R www-data:www-data /var/www/html/
+
+# Expose the port
+EXPOSE 80
+
+# Start the Apache service
+CMD ["apache2-foreground"]
+
