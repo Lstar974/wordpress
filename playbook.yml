@@ -27,18 +27,22 @@
       name: rewrite
       state: present
 
-  - name: Create the WordPress database
-    mysql_db:
-      name: "wordpress"
-      state: present
-      login_user: lucas
-      login_password: root
+  - name: Create new user for WordPress
+  mysql_user:
+    name: wordpress
+    password: "root"
+    priv: "wordpress.*:ALL"
+    host: "192.168.6.10"
+    login_user: root
+    login_password: "root"
+  with_items: "192.168.6.10"
+
 
   - name: Create the WordPress database user
     mysql_user:
       name: "lucas"
       password: "root"
-      priv: "{{ wp_db_name }}.*:ALL"
+      priv: "wordpress.*:ALL"
       state: present
       login_user: root
       login_password: root
