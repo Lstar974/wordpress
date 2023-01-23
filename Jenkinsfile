@@ -16,8 +16,6 @@ node {
       withDockerRegistry(credentialsId: 'dockerhub') {
         }
       }
-     
-    }
 
     }    
 }
