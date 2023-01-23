@@ -41,10 +41,13 @@
       src: /tmp/wordpress-{{ wordpress_version }}.tar.gz
       dest: /var/www/html/
       remote_src: yes
-  - name: Configure WordPress
-    template:
-      src: wp-config.php.j2
-      dest: /var/www/html/wordpress/wp-config.php
+  - name: Create wp-config.php file
+  file:
+    path: /path/to/wp-config.php
+    state: touch
+    owner: www-data
+    group: www-data
+    mode: 0644
     vars:
       db_name: "{{ wordpress_db_name }}"
       db_user: "{{ wordpress_db_user }}"
