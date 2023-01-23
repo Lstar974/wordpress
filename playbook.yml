@@ -38,7 +38,4 @@
         
     - name: Create a virtual environment
       command: virtualenv /opt/wordpress
-      
-    - name:  Run the application
-      command: python3 /opt/wordpress/app.py
 
