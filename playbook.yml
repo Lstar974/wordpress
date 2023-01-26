@@ -1,4 +1,4 @@
----
+
   name: Build WordPress environment
   hosts: all
   become: yes
