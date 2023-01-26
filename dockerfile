@@ -32,9 +32,6 @@ RUN a2enmod rewrite
 # Set the working directory
 WORKDIR /var/www/html/
 
-# Copy the config file
-COPY wp-config.php .
-
 # Change the ownership of the files
 RUN chown -R www-data:www-data /var/www/html/
 
