@@ -22,26 +22,26 @@
       - mysql-server
       - libapache2-mod-php
       - php-mysql
-  - name: Create WordPress database
+    name: Create WordPress database
     mysql_db:
       name: "{{ wordpress_db_name }}"
       state: present
-  - name: Create WordPress database user
+    name: Create WordPress database user
     mysql_user:
       name: "{{ wordpress_db_user }}"
       password: "{{ wordpress_db_password }}"
       priv: "{{ wordpress_db_name }}.*:ALL"
       state: present
-  - name: Download WordPress
+    name: Download WordPress
     get_url:
       url: https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz
       dest: /tmp
-  - name: Extract WordPress
+    name: Extract WordPress
     unarchive:
       src: /tmp/wordpress-{{ wordpress_version }}.tar.gz
       dest: /var/www/html/
       remote_src: yes
-  - name: Configure WordPress
+    name: Configure WordPress
     template:
       src: wp-config.php.j2
       dest: /var/www/html/wordpress/wp-config.php
@@ -49,12 +49,12 @@
       db_name: "{{ wordpress_db_name }}"
       db_user: "{{ wordpress_db_user }}"
       db_password: "{{ wordpress_db_password }}"
-  - name: Set ownership and permissions
+    name: Set ownership and permissions
     file:
       path: /var/www/html/wordpress
       owner: www-data
       group: www-data
       mode: "u=rwX,g=rwX,o=rX"
-  - name: Install WordPress
+    name: Install WordPress
     command: 
       wp core install --url="{{ wordpress_site_url }}" --title="My Site" --admin_user="{{ wordpress_admin_user }}" --admin_password="{{ wordpress_admin_password }}" --admin_email="{{ wordpress_admin_email }}" --path="/var/www/html/wordpress"
