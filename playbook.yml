@@ -12,7 +12,7 @@
     wordpress_admin_password: mysecretadminpassword
     wordpress_admin_email: admin@example.com
   tasks:
-  - name: Install LAMP stack
+   - name: Install LAMP stack
     package:
       name: "{{ item }}"
     state: present
