@@ -1,41 +1,60 @@
 ---
-- name: Build environment
+- name: Build WordPress environment
   hosts: all
-  become: true
+  become: yes
+  vars:
+    wordpress_version: 5.6
+    wordpress_db_name: wordpress
+    wordpress_db_user: wordpress
+    wordpress_db_password: mysecretpassword
+    wordpress_site_url: example.com
+    wordpress_admin_user: admin
+    wordpress_admin_password: mysecretadminpassword
+    wordpress_admin_email: admin@example.com
   tasks:
-    - name: Update the package manager
-      apt:
-        update_cache: true
-
-    - name: Install necessary packages
-      apt:
-        name: "{{ packages }}"
-        state: present
-      vars:
-        packages:
-          - git
-          - python3
-          - python3-pip
-
-    - name: Clone the source code repository
-      git:
-        repo: https://github.com/Lstar974/wordpress.git
-        dest: /opt/wordpress
-
-    - name: Install Python dependencies
-      pip:
-        name: "{{ packages }}"
-        state: present
-      vars:
-        packages:
-          - Flask
-          - requests
-          
-    - name: Create a virtualenv
-      pip:
-        name: virtualenv
-        state: present
-        
-    - name: Create a virtual environment
-      command: virtualenv /opt/wordpress
-
+  - name: Install LAMP stack
+    package:
+      name: "{{ item }}"
+    state: present
+    with_items:
+      - apache2
+      - php
+      - mysql-server
+      - libapache2-mod-php
+      - php-mysql
+  - name: Create WordPress database
+    mysql_db:
+      name: "{{ wordpress_db_name }}"
+      state: present
+  - name: Create WordPress database user
+    mysql_user:
+      name: "{{ wordpress_db_user }}"
+      password: "{{ wordpress_db_password }}"
+      priv: "{{ wordpress_db_name }}.*:ALL"
+      state: present
+  - name: Download WordPress
+    get_url:
+      url: https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz
+      dest: /tmp
+  - name: Extract WordPress
+    unarchive:
+      src: /tmp/wordpress-{{ wordpress_version }}.tar.gz
+      dest: /var/www/html/
+      remote_src: yes
+  - name: Configure WordPress
+    template:
+      src: wp-config.php.j2
+      dest: /var/www/html/wordpress/wp-config.php
+    vars:
+      db_name: "{{ wordpress_db_name }}"
+      db_user: "{{ wordpress_db_user }}"
+      db_password: "{{ wordpress_db_password }}"
+  - name: Set ownership and permissions
+    file:
+      path: /var/www/html/wordpress
+      owner: www-data
+      group: www-data
+      mode: "u=rwX,g=rwX,o=rX"
+  - name: Install WordPress
+    command: 
+      wp core install --url="{{ wordpress_site_url }}" --title="My Site" --admin_user="{{ wordpress_admin_user }}" --admin_password="{{ wordpress_admin_password }}" --admin_email="{{ wordpress_admin_email }}" --path="/var/www/html/wordpress"
