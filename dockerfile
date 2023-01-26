@@ -29,6 +29,9 @@ RUN docker-php-ext-install \
 # Enable mod_rewrite
 RUN a2enmod rewrite
 
+# Copy the code to the container
+COPY . /var/www/html/
+
 # Set the working directory
 WORKDIR /var/www/html/
 
@@ -40,6 +43,3 @@ EXPOSE 80
 
 # Start the Apache service
 CMD ["apache2-foreground"]
-
-
-
