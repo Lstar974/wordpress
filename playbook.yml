@@ -1,5 +1,5 @@
 ---
-- name: Build WordPress environment
+  name: Build WordPress environment
   hosts: all
   become: yes
   vars:
