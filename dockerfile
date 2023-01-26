@@ -13,7 +13,6 @@ RUN apt-get update && \
         libonig-dev \
         libpq-dev \
         libxml2-dev \
-        mysql-client \
         unzip
 
 # Configure PHP extensions
