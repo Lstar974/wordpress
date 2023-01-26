@@ -13,6 +13,7 @@ RUN apt-get update && \
         libonig-dev \
         libpq-dev \
         libxml2-dev \
+        mysql-client \
         unzip
 
 # Configure PHP extensions
@@ -29,11 +30,11 @@ RUN docker-php-ext-install \
 # Enable mod_rewrite
 RUN a2enmod rewrite
 
-# Copy the code to the container
-COPY . /var/www/html/
-
 # Set the working directory
 WORKDIR /var/www/html/
+
+# Copy the config file
+COPY wp-config.php .
 
 # Change the ownership of the files
 RUN chown -R www-data:www-data /var/www/html/
