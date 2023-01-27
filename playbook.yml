@@ -33,6 +33,7 @@
     mysql_user:
       name: "{{ wordpress_db_user }}"
       password: "{{ wordpress_db_password }}"
+      login_unix_socket: /var/run/mysqld/mysqld.sock
       priv: "{{ wordpress_db_name }}.*:ALL"
       state: present
   - name: Download WordPress
