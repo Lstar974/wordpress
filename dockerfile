@@ -32,12 +32,6 @@ RUN a2enmod rewrite
 # Copy the code to the container
 COPY . /var/www/html/
 
-# Copy wp-config.php file to the container
-COPY wp-config.php /var/www/html/wordpress/wp-config.php
-
-# Set permissions for wp-config.php
-RUN chmod 660 /var/www/html/wp-config.php
-
 # Set the working directory
 WORKDIR /var/www/html/
 
