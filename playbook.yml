@@ -24,6 +24,7 @@
   - name: Create WordPress database
     mysql_db:
       name: "{{ wordpress_db_name }}"
+      login_unix_socket: /var/run/mysqld/mysqld.sock
       state: present
   - name: Create WordPress database user
     mysql_user:
