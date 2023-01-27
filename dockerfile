@@ -45,10 +45,10 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 # Download and configure WordPress
 RUN wp core download \
-    && wp config create --dbname=<wordpress> --dbuser=<lucas> --dbpass=<root>
+    && wp config create --dbname=wordpress --dbuser=lucas --dbpass=root
 
 # Install WordPress
-RUN wp core install --url=<test.com> --title=<test.com> --admin_user=<lucas> --admin_password=<lucas> --admin_email=<admin@example.com>
+RUN wp core install --url=test.com --title=test.com --admin_user=lucas --admin_password=lucas --admin_email=admin@example.com
 
 # Expose the port
 EXPOSE 80
