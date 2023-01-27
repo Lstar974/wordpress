@@ -11,7 +11,6 @@
     wordpress_admin_user: lucas
     wordpress_admin_password: root
     wordpress_admin_email: admin@example.com
-    the_client_host: 192.168.6.10
   tasks:
   - name: Install LAMP stack
     package:
@@ -25,12 +24,10 @@
   - name: Create WordPress database
     mysql_db:
       name: "{{ wordpress_db_name }}"
-      login_host: 192.168.6.10
       login_user: lucas
       login_password: root
       login_unix_socket: /var/run/mysqld/mysqld.sock
       state: present
-      host: "{{ the_client_host }}"
   - name: Create WordPress database user
     mysql_user:
       name: "{{ wordpress_db_user }}"
