@@ -44,7 +44,7 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     && mv wp-cli.phar /usr/local/bin/wp
 
 # Download and configure WordPress
-RUN wp config set DB_NAME "wordpress" --allow-root && wp config set DB_USER "lucas" --allow-root && wp config set DB_PASSWORD "root" --allow-root
+RUN sudo -u www-data -i -- wp config set DB_NAME "wordpress" --allow-root && wp config set DB_USER "lucas" --allow-root && wp config set DB_PASSWORD "root" --allow-root
 
 # Install WordPress
 RUN wp core install --url=test.com --title=test.com --admin_user=lucas --admin_password=lucas --admin_email=admin@example.com
