@@ -40,7 +40,7 @@
       remote_src: yes
   - name: Configure WordPress
     template:
-      src: wp-config.php.j2
+      src: wp-config.php
       dest: /var/www/html/wordpress/wp-config.php
     vars:
       db_name: "{{ wordpress_db_name }}"
