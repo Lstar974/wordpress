@@ -43,6 +43,8 @@ RUN chown -R www-data:www-data /var/www/html/
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
+    
+RUN wp core download --path="/var/www/html/wordpress"
 
 # Expose the port
 EXPOSE 80
