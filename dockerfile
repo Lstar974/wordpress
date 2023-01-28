@@ -13,6 +13,7 @@ RUN apt-get update && \
         libonig-dev \
         libpq-dev \
         libxml2-dev \
+        sudo \
         unzip
 
 # Configure PHP extensions
