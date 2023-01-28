@@ -44,7 +44,7 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
     
-RUN wp core download --path="/var/www/html/wordpress"
+RUN sudo -u lucas -i wp core download --path="/var/www/html/wordpress"
 
 # Expose the port
 EXPOSE 80
