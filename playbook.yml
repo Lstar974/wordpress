@@ -54,4 +54,4 @@
       mode: "u=rwX,g=rwX,o=rX"
   - name: Install WordPress
     command: 
-      wp core install --url="{{ wordpress_site_url }}" --title="My Site" --admin_user="{{ wordpress_admin_user }}" --admin_password="{{ wordpress_admin_password }}" --admin_email="{{ wordpress_admin_email }}" --path="/var/www/html/wordpress"
+     sudo -u lucas -i --wp core install --url="{{ wordpress_site_url }}" --title="My Site" --admin_user="{{ wordpress_admin_user }}" --admin_password="{{ wordpress_admin_password }}" --admin_email="{{ wordpress_admin_email }}" --path="/var/www/html/wordpress"
